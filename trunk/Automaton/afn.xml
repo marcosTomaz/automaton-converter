@@ -1,0 +1,34 @@
+<afn>
+	<automata>
+		<estados>
+			<estado tipo="final" inicial="true">x</estado>
+			<estado tipo="interno" inicial="false">y</estado>
+		</estados>
+		<alfabeto>
+			<simbolo>a</simbolo>
+			<simbolo>b</simbolo>
+			<simbolo>c</simbolo>
+		</alfabeto>
+		<funcion>
+			<transicion>
+				<estado tipo="origen">x</estado>
+				<simbolo>b</simbolo>
+				<estado tipo="destino">y</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">x</estado>
+				<simbolo>b</simbolo>
+				<estado tipo="destino">y</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">x</estado>
+				<simbolo>b</simbolo>
+				<estado tipo="destino">y</estado>
+			</transicion>
+		</funcion>
+	</automata>
+	<automata>
+	</automata>
+	<automata>
+	</automata>
+</afn>
