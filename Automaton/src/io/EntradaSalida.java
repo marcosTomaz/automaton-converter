@@ -7,25 +7,20 @@ import java.io.File;
 
 import automata.AFD;
 import automata.AFN;
+import java.io.FileNotFoundException;
+import java.util.Vector;
 
 /**
  * @author Magda
  *
  */
-public class EntradaSalida {
+public abstract class EntradaSalida {
 
 	public EntradaSalida(){
 		
 	}
 	
-	static public AFN getAutomata(File xml){
-		// TODO hacer logica
-		
-		
-		return new AFN();
-	}
+	abstract public Vector<AFN> getAutomatas(File xml, File xsd) throws FileNotFoundException;
 	
-	static public void saveAutomata(File xml, AFD automata){
-		
-	}
+	abstract public void saveAutomatas(File xml, Vector<AFD> automatas);
 }
