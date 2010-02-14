@@ -4,7 +4,7 @@
 package automata;
 
 /**
- * @author kristian
+ * @author Magda
  *
  */
 public class AFN extends Automata {

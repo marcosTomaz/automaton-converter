@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="automatasns"
+xmlns="automatasns"
+elementFormDefault="qualified"
+>
+
+	<xs:element name="afn">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="automata" minOccurs ="0" maxOccurs="unbounded" >
+					<xs:complexType >
+						<xs:all>
+							<xs:element name="estados" >
+									<xs:complexType >
+										<xs:sequence>
+											<xs:element name="estado" minOccurs ="1" maxOccurs="unbounded" >
+												<xs:complexType >
+													<xs:attribute name="tipo" use="required">
+														<xs:simpleType >
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="aceptador" />
+																<xs:enumeration value="interno" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:attribute>
+													<xs:attribute name="inicial" type="xs:boolean" use="required"/>
+													<xs:attribute name="nombre" type="xs:string" use="required"/>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+							</xs:element>
+							<xs:element name="alfabeto" >
+								<xs:complexType >
+									<xs:sequence>
+										<xs:element name="simbolo" type="xs:string" minOccurs ="1" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="funcion" >
+								<xs:complexType >
+									<xs:sequence>
+										<xs:element name="transicion" minOccurs ="0" maxOccurs="unbounded" >
+											<xs:complexType >
+												<xs:sequence>
+													<xs:element name="estado" minOccurs="2" maxOccurs="2">
+														<xs:complexType >
+															<xs:attribute name="rol" use="required">
+																<xs:simpleType >
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="origen" />
+																		<xs:enumeration value="destino" />
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="nombre" type="xs:string" use="required"/>
+														</xs:complexType >
+													</xs:element>
+													<xs:element name="simbolo" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:all>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
