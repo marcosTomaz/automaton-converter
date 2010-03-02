@@ -11,6 +11,9 @@ import ioxml.Afn;
 import java.io.File;
 import ioxml.ObjectFactory;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -18,6 +21,7 @@ import java.util.logging.Logger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -29,6 +33,10 @@ import org.xml.sax.SAXException;
  */
 public class EntradaSalidaXML extends EntradaSalida{
 
+    private Afn getAfn(Vector<AFD> automatas){
+
+    }
+
     private Afn getAfn(File xml,File xsd) throws FileNotFoundException{
         Afn xmlObject = null;
         try {
@@ -38,7 +46,7 @@ public class EntradaSalidaXML extends EntradaSalida{
             Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(xsd);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             unmarshaller.setSchema(schema);
-            xmlObject = afn.getClass().cast(unmarshaller.unmarshal(xml));
+            xmlObject = afn.getClass().cast(unmarshaller.unmarshal(new FileReader(xml)));
             
 
         } catch (JAXBException ex) {
@@ -72,8 +80,17 @@ public class EntradaSalidaXML extends EntradaSalida{
     }
 
     @Override
-    public void saveAutomatas(File xml, Vector<AFD> automatas) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void saveAutomatas(File xml, Vector<AFD> automatas) throws IOException{
+        Afn rawAfn = getAfn(automatas);
+        try {
+
+            JAXBContext context = JAXBContext.newInstance(rawAfn.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.marshal(rawAfn, new FileWriter(xml));
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(EntradaSalidaXML.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

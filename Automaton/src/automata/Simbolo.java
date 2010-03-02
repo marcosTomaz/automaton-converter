@@ -8,8 +8,8 @@ package automata;
  *
  */
 public class Simbolo {
-	String nombre;
-	int codigo;
+	private String nombre;
+	private int codigo;
 	
 	public Simbolo(){
 		this("default");
@@ -35,6 +35,7 @@ public class Simbolo {
 		return codigo;
 	}
 	
+        @Override
 	public String toString(){
 		return getNombre();
 	}

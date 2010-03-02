@@ -12,7 +12,7 @@ import excepcion.SimboloNoExistente;
  *
  */
 public class Alfabeto {
-	Vector<Simbolo> simbolos;
+	private Vector<Simbolo> simbolos;
 	
 	public Alfabeto(){
 		simbolos = new Vector<Simbolo>();
@@ -38,6 +38,10 @@ public class Alfabeto {
 			simb.setCodigo(simbolos.indexOf(simb));
 		}
 	}
+
+        public int getIndice(Simbolo simbolo) throws SimboloNoExistente{
+            return getSimbolo(simbolo.getNombre()).getCodigo();
+        }
 	
 	public Simbolo getSimbolo(String nombre) throws SimboloNoExistente{
 		
@@ -46,13 +50,19 @@ public class Alfabeto {
 			temp.setNombre(nombre);
 			
 			if (simbolos.get(i).isEqual(temp)){
+                            simbolos.get(i).setCodigo(i);
 				return simbolos.get(i);
 			}
 		}
 		
 		throw new SimboloNoExistente("El simbolo no pertenece al Alfabeto");
 	}
+
+        public Simbolo getSimbolo(int codigo){
+            return simbolos.get(codigo);
+        }
 	
+        @Override
 	public String toString(){
 		Iterator<Simbolo> itSimb = simbolos.iterator();
 		StringBuffer salida = new StringBuffer();
