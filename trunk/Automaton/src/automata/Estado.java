@@ -8,8 +8,8 @@ package automata;
  *
  */
 public class Estado {
-	int codigo;
-	String nombre;
+	private int codigo;
+	private String nombre;
 	
 	/**
 	 *  constructor nulo
@@ -43,10 +43,16 @@ public class Estado {
 	public String getNombre(){
 		return nombre;
 	}
+
+        public boolean equals(Object otro){
+            Estado otroEstado = (Estado) otro;
+            return (otroEstado.getNombre().compareTo(getNombre()) == 0);
+        }
 	
 	/**
 	 * retorna la informacion deseada
 	 */
+        @Override
 	public String toString(){
 		return getNombre();
 	}

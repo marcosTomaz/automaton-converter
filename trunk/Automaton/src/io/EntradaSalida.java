@@ -8,6 +8,7 @@ import java.io.File;
 import automata.AFD;
 import automata.AFN;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 /**
@@ -22,5 +23,5 @@ public abstract class EntradaSalida {
 	
 	abstract public Vector<AFN> getAutomatas(File xml, File xsd) throws FileNotFoundException;
 	
-	abstract public void saveAutomatas(File xml, Vector<AFD> automatas);
+	abstract public void saveAutomatas(File xml, Vector<AFD> automatas) throws IOException;
 }

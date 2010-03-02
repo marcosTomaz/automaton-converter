@@ -1,8 +1,11 @@
 <afn>
 	<automata>
 		<estados>
-			<estado tipo="final" inicial="true">x</estado>
-			<estado tipo="interno" inicial="false">y</estado>
+			<estado tipo="interno" inicial="true">1</estado>
+			<estado tipo="interno" inicial="false">2</estado>
+                        <estado tipo="interno" inicial="false">3</estado>
+			<estado tipo="interno" inicial="false">4</estado>
+                        <estado tipo="final" inicial="false">5</estado>
 		</estados>
 		<alfabeto>
 			<simbolo>a</simbolo>
@@ -11,22 +14,108 @@
 		</alfabeto>
 		<funcion>
 			<transicion>
-				<estado tipo="origen">x</estado>
-				<simbolo>b</simbolo>
-				<estado tipo="destino">y</estado>
+				<estado tipo="origen">1</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">2</estado>
 			</transicion>
 			<transicion>
-				<estado tipo="origen">x</estado>
+				<estado tipo="origen">1</estado>
 				<simbolo>b</simbolo>
-				<estado tipo="destino">y</estado>
+				<estado tipo="destino">3</estado>
 			</transicion>
 			<transicion>
-				<estado tipo="origen">x</estado>
-				<simbolo>b</simbolo>
-				<estado tipo="destino">y</estado>
+				<estado tipo="origen">2</estado>
+				<simbolo>c</simbolo>
+				<estado tipo="destino">4</estado>
 			</transicion>
+                        <transicion>
+				<estado tipo="origen">4</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">3</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">4</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">5</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">3</estado>
+				<simbolo>c</simbolo>
+				<estado tipo="destino">4</estado>
+			</transicion>
+
 		</funcion>
 	</automata>
+     		<estados>
+			<estado tipo="interno" inicial="true">1</estado>
+			<estado tipo="interno" inicial="false">2</estado>
+                        <estado tipo="final" inicial="false">3</estado>
+			<estado tipo="interno" inicial="false">4</estado>
+                        <estado tipo="interno" inicial="false">5</estado>
+                        <estado tipo="final" inicial="false">6</estado>
+		</estados>
+   <alfabeto>
+			<simbolo>a</simbolo>
+			<simbolo>b</simbolo>
+			<simbolo>c</simbolo>
+		</alfabeto>
+		<funcion>
+			<transicion>
+				<estado tipo="origen">1</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">2</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">1</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">3</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">2</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">3</estado>
+			</transicion>
+                        <transicion>
+				<estado tipo="origen">2</estado>
+				<simbolo>c</simbolo>
+				<estado tipo="destino">5</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">3</estado>
+				<simbolo>b</simbolo>
+				<estado tipo="destino">5</estado>
+			</transicion>
+			<transicion>
+				<estado tipo="origen">3</estado>
+				<simbolo>b</simbolo>
+				<estado tipo="destino">4</estado>
+			</transicion>
+                        <transicion>
+				<estado tipo="origen">4</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">5</estado>
+			</transicion>
+                        <transicion>
+				<estado tipo="origen">4</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">6</estado>
+			</transicion>
+                         <transicion>
+				<estado tipo="origen">5</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">6</estado>
+			</transicion>
+                        <transicion>
+				<estado tipo="origen">5</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">2</estado>
+			</transicion>
+                         <transicion>
+				<estado tipo="origen">6</estado>
+				<simbolo>a</simbolo>
+				<estado tipo="destino">6</estado>
+			</transicion>
+		</funcion>
 	<automata>
 	</automata>
 	<automata>
