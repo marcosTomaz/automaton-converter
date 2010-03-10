@@ -30,31 +30,28 @@ public abstract class Automata {
 	private Vector<Vector<Estado>[]> tabla;
 	
 	public Automata(Estado estadoInicial,Alfabeto alfabeto,Vector<Estado> estadosFinales,Vector<Estado> estados,Vector<Transicion> funcion) throws EstadoNoValidoException {
-         try {
-            this.alfabeto = alfabeto;
-                this.estados = estados;
+             try {
+                this.alfabeto = alfabeto;
+                    this.estados = estados;
 
-                // creo tabla
-                crearTabla();
-                // seteo estado inicial
-                setEstadoInicial(estadoInicial);
-                // inicializo estados finales
-                setEstadosFinales(estadosFinales);
+                    // creo tabla
+                    crearTabla();
+                    // seteo estado inicial
+                    setEstadoInicial(estadoInicial);
+                    // inicializo estados finales
+                    setEstadosFinales(estadosFinales);
 
-                // inicilizo tabla (cargo transiciones)
-                Iterator<Transicion> itTransicion = funcion.iterator();
+                    // inicilizo tabla (cargo transiciones)
+                    Iterator<Transicion> itTransicion = funcion.iterator();
 
-                while(itTransicion.hasNext()){
-
-                Transicion transicion = itTransicion.next();
-                setTransicion(transicion);
-
-
-                }
-} catch (SimboloNoExistente ex) {
-                Logger.getLogger(Automata.class.getName()).log(Level.SEVERE, null, ex);
-            }
-	}
+                    while(itTransicion.hasNext()){
+                        Transicion transicion = itTransicion.next();
+                        setTransicion(transicion);
+                    }
+            } catch (SimboloNoExistente ex) {
+                    Logger.getLogger(Automata.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        }
 
 	
 	public void setAlfabeto(Alfabeto alfabeto){
@@ -67,7 +64,7 @@ public abstract class Automata {
 
 	public Vector<Estado> mover(Estado origen, Simbolo simbolo) throws SimboloNoExistente{
              return tabla.get(origen.getCodigo())[alfabeto.getIndice(simbolo)];
-		
+
 	}
 
         private int getIndice(Estado estado) throws EstadoNoValidoException{
@@ -183,7 +180,19 @@ public abstract class Automata {
         }
 
         private Estado getEstado(int codigo){
+            // recorro el vector de estados
+            //// busco el estado que tiene el codigo correspondiente
+            //// retorno el estado
 
+            Iterator<Estado> itEstado = estados.iterator() ;
+
+            while (itEstado.hasNext()){
+                Estado estadoActual = itEstado.next();
+                if (estadoActual.getCodigo() == codigo){
+                    return estadoActual;
+                }
+            }
+            return null;
         }
 
       /**
