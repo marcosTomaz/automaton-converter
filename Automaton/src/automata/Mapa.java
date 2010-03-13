@@ -6,23 +6,56 @@
 package automata;
 
 import java.util.Vector;
+import java.util.Iterator;
 
 /**
  *
  * @author magda
  */
 public class Mapa {
-    private Vector<Equivalencia> equivalencias;
+   private Vector<Equivalencia> equivalencias;
 
-    
+    public Mapa() {
+    }
+
+    public Estado getEstadoAFD(Vector<Estado> estadosAFN) {
+
+        Iterator<Equivalencia> itEstado = equivalencias.iterator();
+
+        while (itEstado.hasNext()) {
+
+            Equivalencia estadoActual = itEstado.next();
+
+            if (estadoActual.getEstadosAFN().equals(estadosAFN)) {
+                return estadoActual.estadoAFD;
+            }
+        }
+
+        return null;
+    }
+
+    public Estado agregar(Estado estadoAFD, Vector<Estado> estadosAFN) {
+
+        Estado afd = getEstadoAFD(estadosAFN);
+
+
+        if (afd == null) {
+            this.equivalencias.add(new Equivalencia(estadoAFD, estadosAFN));
+            return estadoAFD;
+        }
+
+        return afd;
+    }
 }
 
-class Equivalencia {
-    private Estado estadoAFD;
-    private Vector<Estado> estadosAFN;
 
-    public Equivalencia(){
+    class Equivalencia {
+    public Estado estadoAFD;
+    public Vector<Estado> estadosAFN;
 
+    public Equivalencia(Estado estadoAFD,Vector<Estado> estadosAFN){
+           setEstadoAFD(estadoAFD);
+           setEstadosAFN(estadosAFN);
     }
 
     public Estado getEstadoAFD() {
@@ -40,4 +73,7 @@ class Equivalencia {
     public void setEstadosAFN(Vector<Estado> estadosAFN) {
         this.estadosAFN = estadosAFN;
     }
-}
+
+    }
+
+

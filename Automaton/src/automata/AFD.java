@@ -15,12 +15,12 @@ public class AFD extends AFN {
 	 * conversion debido a que ya se trata de un AFD
 	 */
 
+
         public AFD (Estado estadoInicial,Alfabeto alfabeto,Vector<Estado> estadosFinales,Vector<Estado> estados,Vector<Transicion> funcion) throws EstadoNoValidoException {
             super(estadoInicial,alfabeto,estadosFinales,estados,funcion);
         }
 
-   
-        @Override
+       
 	public AFD toAFD(){
 		return this;
 	}

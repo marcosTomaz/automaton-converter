@@ -2,73 +2,65 @@
  * 
  */
 package automata;
+import excepcion.SimboloNoExistente;
 import java.util.Vector;
 import java.util.Iterator;
 import excepcion.EstadoNoValidoException;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Magda
  *
  */
 public class AFN extends Automata {
-
-    Vector<Vector<Estado>> mapa;
+    
 
     public AFN(Estado estadoInicial,Alfabeto alfabeto,Vector<Estado> estadosFinales,Vector<Estado> estados,Vector<Transicion> funcion) throws EstadoNoValidoException {
          super(estadoInicial,alfabeto,estadosFinales,estados,funcion);
     }
 
-    public AFD toAFD(AFN tablaAFN) {
-        //sabiendo q un automata, AFn o AFD esta formado por:
-        //quintupla=(estadoInicial, Alfabeto alfabeto, Vector<Integer> estadosFinales, Vector<Estado> estados)
-	// este metodo recibe un AFN y regresa un AFD...
+    public AFD toAFD() {
+        // crear lista de mapeo
+        // crear lista de transiciones (usando lista de mapeo)
+        // obtener lista de equivalencias finales e iniciales(usando lsita de mapeo)
+        // crear el afd con los datos obtenidos
+        // retornar el afd
+        Mapa mapeo = new Mapa();
 
-        // con tablaAFN:
-        // recorro el vector de estados origen, por estado
-        //// recorro el arreglo de simbolos, por simbolo
-        
-        ////// recorro el vector de estados destino y genero el vector de estadosAfn(para cada simbolo)
-        //////// aplico cerradura(vector de estadosAfn,simbolo)--->estadoAfd
-
-        ///////// (estadoAfd)si no existe, lo agrego al vector de estados origen y al vector de estados con la posicion en estado
-        ///////// estadoDestino = buscar en el vector funcion,al estadoAfn en estadoOrigen y regresar el estadoDestino
-        ///////// agrego al vector funcion(estadoAfd, simbolo,estadoDestino)
-        ///////// mapeo(vector <Estado> estadoAfn,estado Afn)
-
-
-        return new AFD();
+        return null;
     }
 
-    private Estado cerradura(Vector<Estado> estadosAfn, Simbolo simbolo) {
-        // recibe el vector, estadosAfn, de estadosDestino de la tablaAFN asociada a cada simbolo y regresera:
-        // un nuevo estado del Afd
-        // si hay mas de un estado Afn, regresa un nuevo estado Afd
-        // sino regresa el mismo estado Afn (como estado Afd)
+    private Estado cerradura(Vector<Estado> estadosAfn,Simbolo simbolo,Mapa mapeo) {
+        // Para cada estado con el simbolo
+        //// obtengo el estado destino par cada uno (en la tabla AFN)
+        //// lo agrego a la lista de estados destino (no se debe repetir)
+        // Busco si existe el estado equivalente
+        // si no existe lo creo y seteo final (si corresponde)
+        // devuelvo el estado equivalente
+        Iterator<Estado> itEstadosAfn = estadosAfn.iterator();
+        HashSet<Estado> destinos = new HashSet<Estado>();
+        int indiceEstado = 0;
 
-
-        if (estadoAfn.size() == 1) {
-            return estadosAfn;
+        while (itEstadosAfn.hasNext()){
+            try {
+                indiceEstado = getIndice(itEstadosAfn.next());
+                Estado origen = getEstados().get(indiceEstado);
+                Vector<Estado> destinosAfn = mover(origen, simbolo);
+                destinos.addAll(destinosAfn);
+            } catch (SimboloNoExistente ex) {
+                Logger.getLogger(AFN.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (EstadoNoValidoException ex) {
+                Logger.getLogger(AFN.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        else {
-            // codigo
-        }
-    }
 
-  
-    private void mapeo(Vector<Estado> estadosAfn,Estado estadoAfd) { // estadosAfn = {q1,q2,q3}; estadoAfd = {qnuevo}
-                                                                     // o estadosAfn = {qn}; estadoAfd = {qn}
-        //Vector<Vector<Estado>> mapa;  creo q esta mal, quiero hacer un vector de estadoAfd de vectores de estadosAfn
-        // recorro con mapa el vector de estadoAfd
-        //si e estadoAfd no existe se lo agrego al vector
-        //sino le agrego el vector de estadosAfn
-        
-    //   me gustaria crear la clase Mapa...
-     //  entonces tendria algo asi como:
-     //      atributos:
-               private Estado estadoAfd;
-               private Vector<Estado> estadosAfn;
-               con todas sus funcionalidades....
+        Estado afd = new Estado();
+        // setear valores a afd
+        afd = mapeo.agregar(afd, new Vector<Estado>(destinos));
+
+        return afd;
 
     }
-
 }
