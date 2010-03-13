@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public abstract class Automata {
 	private int estadoInicial;
 	private Alfabeto alfabeto;
-	private Vector<Integer> estadosFinales;
+        private Vector<Integer> estadosFinales;
         private Vector<Estado> estados;
 	// vector de arreglos de vectores de estado (tabla de 3 dimensiones)
         //
@@ -31,7 +31,9 @@ public abstract class Automata {
 	
 	public Automata(Estado estadoInicial,Alfabeto alfabeto,Vector<Estado> estadosFinales,Vector<Estado> estados,Vector<Transicion> funcion) throws EstadoNoValidoException {
              try {
-                this.alfabeto = alfabeto;
+
+                 this.estadosFinales = new Vector<Integer>();
+                    this.alfabeto = alfabeto;
                     this.estados = estados;
 
                     // creo tabla
@@ -67,7 +69,7 @@ public abstract class Automata {
 
 	}
 
-        private int getIndice(Estado estado) throws EstadoNoValidoException{
+        protected  int getIndice(Estado estado) throws EstadoNoValidoException{
             Estado estadoValido = checkEstado(estado);
             return estadoValido.getCodigo();
 
@@ -240,7 +242,7 @@ public abstract class Automata {
                 fila = fila.nextRow();
                 celda = fila.nextCell();
                 celda = celda.addLine(getEstado(i).getNombre());
-                for (int j = 0;j <= tabla.get(i).length;j++){
+                for (int j = 0;j < tabla.get(i).length;j++){
                     celda = celda.nextCell();
 
                     for (int k = 0;k < tabla.get(i)[j].size();k++){
