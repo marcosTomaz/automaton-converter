@@ -39,7 +39,75 @@ import org.xml.sax.SAXException;
 public class EntradaSalidaXML extends EntradaSalida{
 
     private Afn getAfn(Vector<AFD> automatas){
-        throw new UnsupportedOperationException();
+       // throw new UnsupportedOperationException();
+
+        Iterator<AFD> itAFD = automatas.iterator();
+        Afn afnOut = new Afn();
+
+        while (itAFD.hasNext()){
+            Afn.Automata.Estados estadosAfn;
+            Afn.Automata.Alfabeto alfabetoAfn = new Afn.Automata.Alfabeto();
+            Afn.Automata.Funcion funcionAfn = new Afn.Automata.Funcion();
+            AFD afdActual = itAFD.next();
+            Iterator<Estado> itEstados = afdActual.getEstados().iterator();
+            estadosAfn = new Afn.Automata.Estados();
+            Afn.Automata automataActual = new Afn.Automata();
+
+            while (itEstados.hasNext()){
+                Estado estadoActual = itEstados.next();
+                Afn.Automata.Estados.Estado estadoAfnActual = new Afn.Automata.Estados.Estado();
+                estadoAfnActual.setNombre(estadoActual.getNombre());
+                estadoAfnActual.setInicial(estadoActual.isInicial());
+                estadoAfnActual.setTipo((estadoActual.isAceptador()) ? "aceptador" : "interno");
+
+                estadosAfn.getEstado().add(estadoAfnActual);
+            }
+
+            Alfabeto alfabeto = afdActual.getAlfabeto();
+            for (int i = 0;i < alfabeto.getCantidadSimbolos();i++){
+                alfabetoAfn.getSimbolo().add(alfabeto.getSimbolo(i).getNombre());
+            }
+
+            Iterator<Transicion> itTransiciones = afdActual.getFuncion().iterator();
+
+            while (itTransiciones.hasNext()){
+                Transicion transicionActual = itTransiciones.next();
+                Afn.Automata.Funcion.Transicion.Estado estadoOrigen;
+                Afn.Automata.Funcion.Transicion.Estado estadoDestino;
+                String simbolo;
+                Afn.Automata.Funcion.Transicion transicionAfnActual;
+
+                estadoOrigen = new Afn.Automata.Funcion.Transicion.Estado();
+                estadoDestino = new Afn.Automata.Funcion.Transicion.Estado();
+                transicionAfnActual = new Afn.Automata.Funcion.Transicion();
+
+                estadoOrigen.setNombre(transicionActual.getEstadoOrigen().getNombre());
+                estadoDestino.setNombre(transicionActual.getEstadoDestino().getNombre());
+                simbolo = transicionActual.getSimbolo().getNombre();
+
+                estadoOrigen.setRol("origen");
+                estadoDestino.setRol("destino");
+
+                transicionAfnActual.getEstado().add(estadoOrigen);
+                transicionAfnActual.getEstado().add(estadoDestino);
+                transicionAfnActual.setSimbolo(simbolo);
+                
+                funcionAfn.getTransicion().add(transicionAfnActual);
+            }
+
+            automataActual.setAlfabeto(alfabetoAfn);
+            automataActual.setEstados(estadosAfn);
+            automataActual.setFuncion(funcionAfn);
+
+//            automataActual.getAlfabeto().getSimbolo().addAll(alfabetoAfn.getSimbolo());
+//            automataActual.getEstados().getEstado().addAll(estadosAfn);
+//            automataActual.getFuncion().getTransicion().addAll(funcionAfn.getTransicion());
+
+            afnOut.getAutomata().add(automataActual);
+
+        }
+
+        return afnOut;
     }
 
     public Afn getAfn(File xml,File xsd) throws FileNotFoundException{
@@ -105,8 +173,6 @@ public class EntradaSalidaXML extends EntradaSalida{
                     destino = 0;
                 }
 
-                System.out.println("va a setear las transiciones");
-
                 estadoOrigen = new Estado(transicionActual.getEstado().get(origen).getNombre());
                 estadoDestino = new Estado(transicionActual.getEstado().get(destino).getNombre());
                 simbolo = new Simbolo(transicionActual.getSimbolo());
@@ -116,8 +182,6 @@ public class EntradaSalidaXML extends EntradaSalida{
 
                 transiciones.add(transicion);
             }
-
-            System.out.println("va a elegir estados finales e inicial");
 
             Iterator<Estado> itestados = estados.iterator();
             while (itestados.hasNext()) {
@@ -130,11 +194,7 @@ public class EntradaSalidaXML extends EntradaSalida{
                 }
             }
 
-            System.out.println("va a crear el AFN");
-
             afnOut = new AFN(estadoInicial, alfabeto, estadosFinales, estados, transiciones);
-
-            System.out.println("lo va a retornar");
 
             return afnOut;
 
@@ -170,6 +230,7 @@ public class EntradaSalidaXML extends EntradaSalida{
 
             JAXBContext context = JAXBContext.newInstance(rawAfn.getClass());
             Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(rawAfn, new FileWriter(xml));
 
         } catch (JAXBException ex) {
