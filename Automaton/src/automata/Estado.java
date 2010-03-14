@@ -57,7 +57,7 @@ public class Estado {
 
     public boolean equals(Object otro) {
         Estado otroEstado = (Estado) otro;
-        return (otroEstado.getNombre().compareTo(getNombre()) == 0);
+        return otroEstado.getNombre().equals(this.getNombre());
     }
 
     public boolean isAceptador() {
@@ -82,5 +82,9 @@ public class Estado {
     @Override
     public String toString() {
         return getNombre();
+    }
+
+    public static void reset(){
+        cantidad = 0;
     }
 }

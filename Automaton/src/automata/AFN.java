@@ -22,12 +22,111 @@ public class AFN extends Automata {
     }
 
     public AFD toAFD() {
+        Estado.reset();
         // crear lista de mapeo
         // crear lista de transiciones (usando lista de mapeo)
         // obtener lista de equivalencias finales e iniciales(usando lsita de mapeo)
         // crear el afd con los datos obtenidos
         // retornar el afd
         Mapa mapeo = new Mapa();
+        Vector<Estado> estadosActuales = new Vector<Estado>();
+        Vector<Estado> estados = new Vector<Estado>();
+        Iterator<Estado> itEstados = getEstados().iterator();
+        Vector<Transicion> transiciones = new Vector<Transicion>();
+        Estado estadoInicialAFD = new Estado();
+        Vector<Estado> estadosAceptadores = new Vector<Estado>();
+
+        /*
+         * Creacion de la lista de mapeo
+         */
+
+        while (itEstados.hasNext()){
+            Vector<Estado> aux = new Vector<Estado>();
+            aux.add(itEstados.next());
+            mapeo.agregar(aux);
+        }
+        
+        for (int i = 0; i < mapeo.getCantidadEquivalencias(); i++) {
+            // agrego al vector temporal los estados afn que se corresponden al estado equivalente afd
+            estadosActuales = mapeo.getEstadosAFN(mapeo.getEstadosAFD().get(i));
+            Estado estadoOrigen = mapeo.getEstadosAFD().get(i);
+            for (int j = 0; j < getAlfabeto().getCantidadSimbolos(); j++) {
+                Simbolo simboloActual = getAlfabeto().getSimbolo(j);
+                Estado estadoAFD = cerradura(estadosActuales, simboloActual, mapeo);
+
+                if (!estadoAFD.getNombre().equals("default")) {
+
+                    Estado estadoDestino = estadoAFD;
+                    Transicion transicion = new Transicion();
+                    transicion.setEstadoDestino(estadoDestino);
+                    transicion.setEstadoOrigen(estadoOrigen);
+                    transicion.setSimbolo(simboloActual);
+                    transiciones.add(transicion);
+               }
+
+
+            }
+        }
+
+        estados = mapeo.getEstadosAFD();
+        System.out.println(estados);
+        
+
+         System.out.println("#############");
+        System.out.println(transiciones);
+        
+
+        Iterator<Estado> itEstadosAFD = estados.iterator();
+
+        while (itEstadosAFD.hasNext()){
+            Estado estadoAct = itEstadosAFD.next();
+
+            if (estadoAct.isInicial()){
+                estadoInicialAFD = estadoAct;
+            }
+
+            if (estadoAct.isAceptador()){
+                estadosAceptadores.add(estadoAct);
+            }
+        }
+
+        estados = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD,estados);
+        System.out.println("#############");
+        System.out.println(estados);
+        estadosAceptadores = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD,estadosAceptadores);
+        System.out.println("#############");
+        System.out.println(estadosAceptadores);
+
+        Iterator<Transicion> itTransiciones = transiciones.iterator();
+        Vector<Estado> origenes = new Vector<Estado>();
+        Vector<Transicion> transicionesAlcanzables = new Vector<Transicion>();
+
+        while (itTransiciones.hasNext()){
+            origenes.add(itTransiciones.next().getEstadoOrigen());
+        }
+
+        origenes = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD, origenes);
+
+        itTransiciones = transiciones.iterator();
+
+
+        while (itTransiciones.hasNext()){
+            Transicion tranActual = itTransiciones.next();
+            for (int k = 0;k < origenes.size();++k){
+                if (tranActual.getEstadoOrigen().equals(origenes.get(k))){
+                    transicionesAlcanzables.add(tranActual);
+                }
+            }
+        }
+
+        AFD afd;
+        try {
+            afd = new AFD(estadoInicialAFD, getAlfabeto(), estadosAceptadores, estados, transicionesAlcanzables);
+            return afd;
+        } catch (EstadoNoValidoException ex) {
+            Logger.getLogger(AFN.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
         return null;
     }
@@ -56,9 +155,7 @@ public class AFN extends Automata {
             }
         }
 
-        Estado afd = new Estado();
-        // setear valores a afd
-        afd = mapeo.agregar(afd, new Vector<Estado>(destinos));
+        Estado afd = mapeo.agregar(new Vector<Estado>(destinos));
 
         return afd;
 
