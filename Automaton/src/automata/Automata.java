@@ -13,7 +13,10 @@ import excepcion.SimboloNoExistente;
 import java.util.Iterator;
 import java.util.Vector;
 import excepcion.EstadoNoValidoException;
+import ioxml.Afn.Automata.Estados;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -316,22 +319,63 @@ public abstract class Automata {
             return salida.toString();
 
         }
-        
-        public static Vector<Estado> obtenerInalcanzables(Vector<Transicion> transiciones,Estado inicial,Vector<Estado> estados){
-            HashSet<Estado> estadosAlcanzables = new HashSet<Estado>();
-            Iterator<Transicion> itTransiciones;
-            Iterator<Estado> itEstados = estados.iterator();
 
-            estadosAlcanzables.add(inicial);
-            while (itEstados.hasNext()){
-                Estado actual = itEstados.next();
-                itTransiciones = transiciones.iterator();
-                while(itTransiciones.hasNext()){
-                    if (itTransiciones.next().getEstadoDestino().equals(actual)){
-                        estadosAlcanzables.add(actual);
+        /*
+
+        private static boolean tienePredecesor(Estado estado, Vector<Transicion> transiciones, Estado inicial,HashSet<Estado> alcanzables){
+            if (estado.equals(inicial)){
+                alcanzables.add(estado);
+                return true;
+            }
+            boolean cortar = false;
+            Iterator<Transicion> itTransiciones = transiciones.iterator();
+
+            while(!cortar && itTransiciones.hasNext()){
+                Transicion transicion = itTransiciones.next();
+                if (estado.equals(transicion.getEstadoDestino()) && !alcanzables.contains(estado)){
+                    cortar = tienePredecesor(transicion.getEstadoOrigen(), transiciones, inicial,alcanzables);
+                    if (cortar){
+                        alcanzables.add(estado);
                     }
                 }
             }
+
+            return cortar;
+
+        }
+        
+        public static Vector<Estado> obtenerInalcanzables(Vector<Transicion> transiciones,Estado inicial){
+            HashSet<Estado> estadosAlcanzables = new HashSet<Estado>();
+            Iterator<Transicion> itTransiciones;
+            //Iterator<Estado> itEstados = estados.iterator();
+
+        //    HashSet<Estado> estadosInalcanzables = new HashSet<Estado>();
+            itTransiciones = transiciones.iterator();
+         //   Vector<Estado> salida = new Vector<Estado>();
+
+            while(itTransiciones.hasNext()){
+                Transicion tranActual = itTransiciones.next();
+                tienePredecesor(tranActual.getEstadoOrigen(), transiciones, inicial,estadosAlcanzables);
+//                if (!estadosAlcanzables.contains(tranActual.getEstadoOrigen()) && !estadosInalcanzables.contains(tranActual.getEstadoOrigen())){
+//                    if (tienePredecesor(tranActual.getEstadoOrigen(), transiciones, inicial,estadosAlcanzables)){
+//                        estadosAlcanzables.add(tranActual.getEstadoOrigen());
+//                    }
+//                    else {
+//                        estadosInalcanzables.add(tranActual.getEstadoOrigen());
+//                    }
+//                }
+            }
+
+//            estadosAlcanzables.add(inicial);
+//            while (itEstados.hasNext()){
+//                Estado actual = itEstados.next();
+//                itTransiciones = transiciones.iterator();
+//                while(itTransiciones.hasNext()){
+//                    if (itTransiciones.next().getEstadoDestino().equals(actual)){
+//                        estadosAlcanzables.add(actual);
+//                    }
+//                }
+//            }
 
 
 
@@ -343,6 +387,61 @@ public abstract class Automata {
 //            }
 
             return new Vector<Estado>(estadosAlcanzables);
-        } 
+        }
+
+*/
+        	/**
+	 * Recorre el automata.
+	 * @param salida cadena que representa la funcion de transicion
+	 * @return los estados alcanzables del automata
+	 */
+	public static Vector<Estado> recorrer(Vector<Transicion> transiciones,Alfabeto alfabeto, Estado inicial){
+		Stack<Estado> pila = new Stack<Estado>();
+		Estado estadoActual;
+		Simbolo simboloActual;
+		Vector<Estado> destinos;
+		HashSet<Estado> visitados = new HashSet<Estado>();
+
+			estadoActual = inicial;
+
+			pila.push(estadoActual);	//actua como marca, evitando que la pila quede vacia antes de lo previsto
+
+			do {
+
+				visitados.add(estadoActual);
+
+				for (int i = 0;i < alfabeto.getCantidadSimbolos();++i){
+					simboloActual = alfabeto.getSimbolo(i);
+                                        Iterator<Transicion> itTransicion = transiciones.iterator();
+
+                                        destinos = new Vector<Estado>();
+                                        while (itTransicion.hasNext()){
+                                            Transicion tActual = itTransicion.next();
+                                            if (tActual.getSimbolo().equals(simboloActual)){
+                                                destinos.add(tActual.getEstadoDestino());
+                                            }
+                                        }
+
+					//destinos = mover(estadoActual,simboloActual);
+
+					for (int j = 0;j < destinos.size();++j){
+
+						pila.push(destinos.get(j));
+					}
+				}
+
+				if (!pila.empty()){
+					do {
+
+						estadoActual = pila.pop();
+
+					}while (!pila.empty() && visitados.contains(estadoActual)); //solo elige estados no visitados
+				}
+
+			} while (!pila.empty());
+
+
+		return new Vector<Estado>(visitados);
+	}
 }
 

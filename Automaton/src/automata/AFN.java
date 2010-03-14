@@ -69,11 +69,11 @@ public class AFN extends Automata {
         }
 
         estados = mapeo.getEstadosAFD();
-        System.out.println(estados);
+  //      System.out.println(estados);
         
 
-         System.out.println("#############");
-        System.out.println(transiciones);
+//         System.out.println("#############");
+//        System.out.println(transiciones);
         
 
         Iterator<Estado> itEstadosAFD = estados.iterator();
@@ -90,12 +90,16 @@ public class AFN extends Automata {
             }
         }
 
-        estados = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD,estados);
-        System.out.println("#############");
-        System.out.println(estados);
-        estadosAceptadores = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD,estadosAceptadores);
-        System.out.println("#############");
-        System.out.println(estadosAceptadores);
+       // estados = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD);
+        estados = recorrer(transiciones, getAlfabeto(), estadoInicialAFD);
+//        System.out.println("#############");
+//        System.out.println(estados);
+   //     estadosAceptadores = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD,estadosAceptadores);
+
+        estadosAceptadores = intersect(estados, estadosAceptadores);
+
+//        System.out.println("#############");
+//        System.out.println(estadosAceptadores);
 
         Iterator<Transicion> itTransiciones = transiciones.iterator();
         Vector<Estado> origenes = new Vector<Estado>();
@@ -105,7 +109,9 @@ public class AFN extends Automata {
             origenes.add(itTransiciones.next().getEstadoOrigen());
         }
 
-        origenes = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD, origenes);
+ //       origenes = Automata.obtenerInalcanzables(transiciones, estadoInicialAFD, origenes);
+
+        origenes = intersect(estados, origenes);
 
         itTransiciones = transiciones.iterator();
 
@@ -129,6 +135,25 @@ public class AFN extends Automata {
 
 
         return null;
+    }
+
+    private Vector<Estado> intersect(Vector<Estado> uno, Vector<Estado> otro){
+        Iterator<Estado> itOtro;
+        Iterator<Estado> itUno = uno.iterator();
+        HashSet<Estado> nuevo = new HashSet<Estado>();
+
+        while (itUno.hasNext()){
+            Estado unoActual = itUno.next();
+            itOtro = otro.iterator();
+            while (itOtro.hasNext()){
+                Estado otroActual = itOtro.next();
+                if (unoActual.equals(otroActual)){
+                    nuevo.add(unoActual);
+                }
+            }
+        }
+
+        return new Vector<Estado>(nuevo);
     }
 
     private Estado cerradura(Vector<Estado> estadosAfn,Simbolo simbolo,Mapa mapeo) {
