@@ -13,6 +13,7 @@ import excepcion.SimboloNoExistente;
 import java.util.Iterator;
 import java.util.Vector;
 import excepcion.EstadoNoValidoException;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +37,8 @@ public abstract class Automata {
                     this.alfabeto = alfabeto;
                     this.estados = estados;
 
+                   // eliminarInalcanzables(funcion,estadoInicial);
+
                     // creo tabla
                     crearTabla();
                     // seteo estado inicial
@@ -48,7 +51,7 @@ public abstract class Automata {
 
                     while(itTransicion.hasNext()){
                         Transicion transicion = itTransicion.next();
-                        setTransicion(transicion);
+                        addTransicion(transicion);
                     }
             } catch (SimboloNoExistente ex) {
                     Logger.getLogger(Automata.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,7 +77,7 @@ public abstract class Automata {
             return estadoValido.getCodigo();
 
         }
-         public void setTransicion(Transicion transicion) throws EstadoNoValidoException, SimboloNoExistente {
+         public void addTransicion(Transicion transicion) throws EstadoNoValidoException, SimboloNoExistente {
 
         // recupero estado origen
         // busco el estado origen (XO) en el vector de estados
@@ -103,7 +106,16 @@ public abstract class Automata {
         estadoDestino = checkEstado(transicion.getEstadoDestino());
         simbolo = transicion.getSimbolo();
 
-        mover(estadoOrigen, simbolo).add(estadoDestino);
+        Vector<Estado> destinos = mover(estadoOrigen, simbolo);
+        Iterator<Estado> itDestinos = destinos.iterator();
+
+        while (itDestinos.hasNext()){
+            if (itDestinos.next().equals(transicion.getEstadoDestino())){
+                return;
+            }
+        }
+
+        destinos.add(estadoDestino);
         }
 
         private Estado checkEstado(Estado estado) throws EstadoNoValidoException {
@@ -173,7 +185,8 @@ public abstract class Automata {
                     simbolos[i] = new Vector<Estado>();
                 }
                 tabla.add(simbolos);
-                itEstados.next().setCodigo(tabla.indexOf(simbolos));
+                //itEstados.next().setCodigo(tabla.indexOf(simbolos));
+                itEstados.next().setCodigo(tabla.size()-1);
             }
         }
 
@@ -186,16 +199,49 @@ public abstract class Automata {
             //// busco el estado que tiene el codigo correspondiente
             //// retorno el estado
 
-            Iterator<Estado> itEstado = estados.iterator() ;
+            return estados.get(codigo);
 
-            while (itEstado.hasNext()){
-                Estado estadoActual = itEstado.next();
-                if (estadoActual.getCodigo() == codigo){
-                    return estadoActual;
+//            Iterator<Estado> itEstado = estados.iterator() ;
+//
+//            while (itEstado.hasNext()){
+//                Estado estadoActual = itEstado.next();
+//                if (estadoActual.getCodigo() == codigo){
+//                    return estadoActual;
+//                }
+//            }
+//            return null;
+        }
+
+        /**
+         *
+         * @return la funcion de transicion del automata
+         */
+    public Vector<Transicion> getFuncion() {
+        Iterator<Estado> itEstado = getEstados().iterator();
+        Vector<Transicion> transiciones = new Vector<Transicion>();
+
+        while (itEstado.hasNext()) {
+            Estado estadoOrigen = itEstado.next();
+            for (int i = 0; i < alfabeto.getCantidadSimbolos(); ++i) {
+                try {
+                    Vector<Estado> estadosDestino;
+                    Simbolo simbolo = alfabeto.getSimbolo(i);
+                    estadosDestino = mover(estadoOrigen, simbolo);
+                    for (int j = 0; j < estadosDestino.size(); j++) {
+                        Transicion transicionActual = new Transicion();
+                        transicionActual.setEstadoDestino(estadosDestino.get(j));
+                        transicionActual.setEstadoOrigen(estadoOrigen);
+                        transicionActual.setSimbolo(simbolo);
+                        transiciones.add(transicionActual);
+                    }
+                } catch (SimboloNoExistente ex) {
+                    ex.printStackTrace();
                 }
             }
-            return null;
         }
+
+        return transiciones;
+    }
 
       /**
 	 * retorna la informacion deseada
@@ -229,7 +275,9 @@ public abstract class Automata {
 
             TableFormatter tf = new SimpleTableFormatter(true);
             TableFormatter encabezado = tf.nextRow();
-            encabezado = encabezado.nextCell().addLine("···");
+            encabezado = encabezado.nextCell().addLine("Estado");
+            encabezado = encabezado.nextCell().addLine("->");
+            encabezado = encabezado.nextCell().addLine("F");
 
             for (int i = 0;i < alfabeto.getCantidadSimbolos();i++){
                 encabezado = encabezado.nextCell().addLine(alfabeto.getSimbolo(i).getNombre());
@@ -242,6 +290,10 @@ public abstract class Automata {
                 fila = fila.nextRow();
                 celda = fila.nextCell();
                 celda = celda.addLine(getEstado(i).getNombre());
+                celda = fila.nextCell();
+                celda = celda.addLine((getEstado(i).isInicial()) ? "Si" : "No");
+                celda = fila.nextCell();
+                celda = celda.addLine((getEstado(i).isAceptador()) ? "Si" : "No");
                 for (int j = 0;j < tabla.get(i).length;j++){
                     celda = celda.nextCell();
 
@@ -258,11 +310,39 @@ public abstract class Automata {
 
 		for (int i = 0, size = table.length; i < size; i++)
 		{
-			salida.append( (i + 1) + "\t" + table[i]);
+			salida.append(table[i] + "\n");
 		}
 
             return salida.toString();
 
         }
+        
+        public static Vector<Estado> obtenerInalcanzables(Vector<Transicion> transiciones,Estado inicial,Vector<Estado> estados){
+            HashSet<Estado> estadosAlcanzables = new HashSet<Estado>();
+            Iterator<Transicion> itTransiciones;
+            Iterator<Estado> itEstados = estados.iterator();
+
+            estadosAlcanzables.add(inicial);
+            while (itEstados.hasNext()){
+                Estado actual = itEstados.next();
+                itTransiciones = transiciones.iterator();
+                while(itTransiciones.hasNext()){
+                    if (itTransiciones.next().getEstadoDestino().equals(actual)){
+                        estadosAlcanzables.add(actual);
+                    }
+                }
+            }
+
+
+
+
+//            while (itTransiciones.hasNext()){
+//                Transicion transicionActual = itTransiciones.next();
+//                Estado destino = transicionActual.getEstadoDestino();
+//                estadosAlcanzables.add(destino);
+//            }
+
+            return new Vector<Estado>(estadosAlcanzables);
+        } 
 }
 
