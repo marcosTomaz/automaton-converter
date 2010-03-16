@@ -122,4 +122,112 @@ xsi:schemaLocation="automatasns afn.xsd"
 			</transicion>
                 </funcion>
 	</automata>
+	<automata>
+            <estados>
+                <estado tipo="interno" inicial="1" nombre="1" />
+                <estado tipo="aceptador" inicial="0" nombre="2" />
+                <estado tipo="aceptador" inicial="0" nombre="3" />
+                <estado tipo="aceptador" inicial="0" nombre="4" />
+          </estados>
+            <alfabeto>
+			<simbolo>a</simbolo>
+			<simbolo>b</simbolo>
+		</alfabeto>
+		<funcion>
+			<transicion>
+				<estado rol="origen" nombre="1" />
+				<estado rol="destino" nombre="2" />
+				<simbolo>a</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="1" />
+				<estado rol="destino" nombre="3" />
+				<simbolo>b</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="2" />
+				<estado rol="destino" nombre="3" />
+				<simbolo>a</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="2" />
+				<estado rol="destino" nombre="4" />
+				<simbolo>a</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="3" />
+				<estado rol="destino" nombre="1" />
+				<simbolo>b</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="3" />
+				<estado rol="destino" nombre="4" />
+				<simbolo>b</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="4" />
+				<estado rol="destino" nombre="4" />
+				<simbolo>a</simbolo>
+			</transicion>
+	        </funcion>
+	</automata>
+<automata>
+            <estados>
+                <estado tipo="aceptador" inicial="1" nombre="1" />
+                <estado tipo="interno" inicial="0" nombre="2" />
+                <estado tipo="aceptador" inicial="0" nombre="3" />
+                <estado tipo="interno" inicial="0" nombre="4" />
+                <estado tipo="aceptador" inicial="0" nombre="5" />
+          </estados>
+            <alfabeto>
+			<simbolo>a</simbolo>
+			<simbolo>b</simbolo>
+			<simbolo>c</simbolo>
+			<simbolo>d</simbolo>
+
+                </alfabeto>
+		<funcion>
+			<transicion>
+				<estado rol="origen" nombre="1" />
+				<estado rol="destino" nombre="2" />
+				<simbolo>a</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="1" />
+				<estado rol="destino" nombre="3" />
+				<simbolo>a</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="2" />
+				<estado rol="destino" nombre="3" />
+				<simbolo>b</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="2" />
+				<estado rol="destino" nombre="5" />
+				<simbolo>b</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="3" />
+				<estado rol="destino" nombre="4" />
+				<simbolo>d</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="4" />
+				<estado rol="destino" nombre="5" />
+				<simbolo>c</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="4" />
+				<estado rol="destino" nombre="2" />
+				<simbolo>d</simbolo>
+			</transicion>
+			<transicion>
+				<estado rol="origen" nombre="5" />
+				<estado rol="destino" nombre="5" />
+				<simbolo>a</simbolo>
+			</transicion>
+                </funcion>
+	</automata>
+   
 </afn>
