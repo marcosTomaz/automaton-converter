@@ -2,11 +2,11 @@
 <afn xmlns="automatasns">
     <automata>
         <estados>
-            <estado nombre="q6" inicial="false" tipo="aceptador"/>
-            <estado nombre="q3" inicial="false" tipo="interno"/>
             <estado nombre="q1" inicial="true" tipo="interno"/>
-            <estado nombre="q2" inicial="false" tipo="interno"/>
+            <estado nombre="q3" inicial="false" tipo="interno"/>
             <estado nombre="q4" inicial="false" tipo="interno"/>
+            <estado nombre="q2" inicial="false" tipo="interno"/>
+            <estado nombre="q6" inicial="false" tipo="aceptador"/>
         </estados>
         <alfabeto>
             <simbolo>a</simbolo>
@@ -14,16 +14,6 @@
             <simbolo>c</simbolo>
         </alfabeto>
         <funcion>
-            <transicion>
-                <estado nombre="q6" rol="origen"/>
-                <estado nombre="q4" rol="destino"/>
-                <simbolo>c</simbolo>
-            </transicion>
-            <transicion>
-                <estado nombre="q3" rol="origen"/>
-                <estado nombre="q4" rol="destino"/>
-                <simbolo>c</simbolo>
-            </transicion>
             <transicion>
                 <estado nombre="q1" rol="origen"/>
                 <estado nombre="q2" rol="destino"/>
@@ -35,7 +25,7 @@
                 <simbolo>b</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q2" rol="origen"/>
+                <estado nombre="q3" rol="origen"/>
                 <estado nombre="q4" rol="destino"/>
                 <simbolo>c</simbolo>
             </transicion>
@@ -44,21 +34,31 @@
                 <estado nombre="q6" rol="destino"/>
                 <simbolo>a</simbolo>
             </transicion>
+            <transicion>
+                <estado nombre="q2" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>c</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q6" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>c</simbolo>
+            </transicion>
         </funcion>
     </automata>
     <automata>
         <estados>
-            <estado nombre="q6" inicial="false" tipo="aceptador"/>
-            <estado nombre="q12" inicial="false" tipo="aceptador"/>
-            <estado nombre="q3" inicial="false" tipo="aceptador"/>
-            <estado nombre="q11" inicial="false" tipo="aceptador"/>
             <estado nombre="q8" inicial="false" tipo="interno"/>
-            <estado nombre="q5" inicial="false" tipo="interno"/>
-            <estado nombre="q1" inicial="true" tipo="interno"/>
-            <estado nombre="q7" inicial="false" tipo="aceptador"/>
-            <estado nombre="q10" inicial="false" tipo="aceptador"/>
-            <estado nombre="q9" inicial="false" tipo="aceptador"/>
             <estado nombre="q13" inicial="false" tipo="aceptador"/>
+            <estado nombre="q6" inicial="false" tipo="aceptador"/>
+            <estado nombre="q9" inicial="false" tipo="aceptador"/>
+            <estado nombre="q5" inicial="false" tipo="interno"/>
+            <estado nombre="q12" inicial="false" tipo="aceptador"/>
+            <estado nombre="q11" inicial="false" tipo="aceptador"/>
+            <estado nombre="q10" inicial="false" tipo="aceptador"/>
+            <estado nombre="q3" inicial="false" tipo="aceptador"/>
+            <estado nombre="q7" inicial="false" tipo="aceptador"/>
+            <estado nombre="q1" inicial="true" tipo="interno"/>
         </estados>
         <alfabeto>
             <simbolo>a</simbolo>
@@ -67,9 +67,39 @@
         </alfabeto>
         <funcion>
             <transicion>
+                <estado nombre="q8" rol="origen"/>
+                <estado nombre="q11" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q13" rol="origen"/>
+                <estado nombre="q11" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q13" rol="origen"/>
+                <estado nombre="q6" rol="destino"/>
+                <simbolo>b</simbolo>
+            </transicion>
+            <transicion>
                 <estado nombre="q6" rol="origen"/>
                 <estado nombre="q6" rol="destino"/>
                 <simbolo>b</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q9" rol="origen"/>
+                <estado nombre="q10" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q9" rol="origen"/>
+                <estado nombre="q6" rol="destino"/>
+                <simbolo>b</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q5" rol="origen"/>
+                <estado nombre="q10" rol="destino"/>
+                <simbolo>a</simbolo>
             </transicion>
             <transicion>
                 <estado nombre="q12" rol="origen"/>
@@ -87,11 +117,6 @@
                 <simbolo>c</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q3" rol="origen"/>
-                <estado nombre="q8" rol="destino"/>
-                <simbolo>b</simbolo>
-            </transicion>
-            <transicion>
                 <estado nombre="q11" rol="origen"/>
                 <estado nombre="q12" rol="destino"/>
                 <simbolo>a</simbolo>
@@ -107,19 +132,24 @@
                 <simbolo>c</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q8" rol="origen"/>
-                <estado nombre="q11" rol="destino"/>
+                <estado nombre="q10" rol="origen"/>
+                <estado nombre="q3" rol="destino"/>
                 <simbolo>a</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q5" rol="origen"/>
-                <estado nombre="q10" rol="destino"/>
-                <simbolo>a</simbolo>
+                <estado nombre="q10" rol="origen"/>
+                <estado nombre="q6" rol="destino"/>
+                <simbolo>b</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q1" rol="origen"/>
-                <estado nombre="q7" rol="destino"/>
-                <simbolo>a</simbolo>
+                <estado nombre="q10" rol="origen"/>
+                <estado nombre="q5" rol="destino"/>
+                <simbolo>c</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q3" rol="origen"/>
+                <estado nombre="q8" rol="destino"/>
+                <simbolo>b</simbolo>
             </transicion>
             <transicion>
                 <estado nombre="q7" rol="origen"/>
@@ -137,38 +167,127 @@
                 <simbolo>c</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q10" rol="origen"/>
-                <estado nombre="q3" rol="destino"/>
+                <estado nombre="q1" rol="origen"/>
+                <estado nombre="q7" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+        </funcion>
+    </automata>
+    <automata>
+        <estados>
+            <estado nombre="q2" inicial="false" tipo="aceptador"/>
+            <estado nombre="q6" inicial="true" tipo="aceptador"/>
+            <estado nombre="q4" inicial="false" tipo="aceptador"/>
+            <estado nombre="q7" inicial="false" tipo="aceptador"/>
+            <estado nombre="q3" inicial="false" tipo="aceptador"/>
+            <estado nombre="q5" inicial="false" tipo="aceptador"/>
+        </estados>
+        <alfabeto>
+            <simbolo>a</simbolo>
+            <simbolo>b</simbolo>
+        </alfabeto>
+        <funcion>
+            <transicion>
+                <estado nombre="q2" rol="origen"/>
+                <estado nombre="q5" rol="destino"/>
                 <simbolo>a</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q10" rol="origen"/>
+                <estado nombre="q6" rol="origen"/>
+                <estado nombre="q7" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q6" rol="origen"/>
+                <estado nombre="q3" rol="destino"/>
+                <simbolo>b</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q4" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q7" rol="origen"/>
+                <estado nombre="q5" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q3" rol="origen"/>
                 <estado nombre="q6" rol="destino"/>
                 <simbolo>b</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q10" rol="origen"/>
+                <estado nombre="q5" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q5" rol="origen"/>
+                <estado nombre="q6" rol="destino"/>
+                <simbolo>b</simbolo>
+            </transicion>
+        </funcion>
+    </automata>
+    <automata>
+        <estados>
+            <estado nombre="q6" inicial="false" tipo="aceptador"/>
+            <estado nombre="q5" inicial="false" tipo="aceptador"/>
+            <estado nombre="q4" inicial="false" tipo="interno"/>
+            <estado nombre="q7" inicial="false" tipo="aceptador"/>
+            <estado nombre="q1" inicial="true" tipo="aceptador"/>
+            <estado nombre="q2" inicial="false" tipo="interno"/>
+        </estados>
+        <alfabeto>
+            <simbolo>a</simbolo>
+            <simbolo>b</simbolo>
+            <simbolo>c</simbolo>
+            <simbolo>d</simbolo>
+        </alfabeto>
+        <funcion>
+            <transicion>
+                <estado nombre="q6" rol="origen"/>
+                <estado nombre="q7" rol="destino"/>
+                <simbolo>b</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q6" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>d</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q5" rol="origen"/>
+                <estado nombre="q5" rol="destino"/>
+                <simbolo>a</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q4" rol="origen"/>
                 <estado nombre="q5" rol="destino"/>
                 <simbolo>c</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q9" rol="origen"/>
-                <estado nombre="q10" rol="destino"/>
+                <estado nombre="q4" rol="origen"/>
+                <estado nombre="q2" rol="destino"/>
+                <simbolo>d</simbolo>
+            </transicion>
+            <transicion>
+                <estado nombre="q7" rol="origen"/>
+                <estado nombre="q5" rol="destino"/>
                 <simbolo>a</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q9" rol="origen"/>
-                <estado nombre="q6" rol="destino"/>
-                <simbolo>b</simbolo>
+                <estado nombre="q7" rol="origen"/>
+                <estado nombre="q4" rol="destino"/>
+                <simbolo>d</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q13" rol="origen"/>
-                <estado nombre="q11" rol="destino"/>
+                <estado nombre="q1" rol="origen"/>
+                <estado nombre="q6" rol="destino"/>
                 <simbolo>a</simbolo>
             </transicion>
             <transicion>
-                <estado nombre="q13" rol="origen"/>
-                <estado nombre="q6" rol="destino"/>
+                <estado nombre="q2" rol="origen"/>
+                <estado nombre="q7" rol="destino"/>
                 <simbolo>b</simbolo>
             </transicion>
         </funcion>
